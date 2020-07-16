@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>博客</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+  <link rel="stylesheet" href="../../static/css/typo.css" th:href="@{/css/typo.css}">
+  <link rel="stylesheet" href="../../static/css/animate.css" th:href="@{/css/animate.css}">
+  <link rel="stylesheet" href="../../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
+  <link rel="stylesheet" href="../../static/lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">
+  <link rel="stylesheet" href="../../static/css/me.css" th:href="@{/css/me.css}">
+
+  <link rel="stylesheet" href="../../static/css/过山车.css" th:href="@{/css/过山车.css}">
+
+  <style>
+    .div1{
+      width:20px;
+      height:50px;
+      text-align:center;
+      line-height:60px;
+      font-size:45px;
+      color: #a8ffab;
+      font-family: "Kaiti SC";
+    }
+  </style>
+</head>
+
+<body>
+
+<canvas id="canvas"></canvas>
+
+<script>
+  const PHI = (1 + Math.sqrt(5)) / 2, // 1.618033988749895
+          maxGeneration = (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) ? 5 : 6,
+          frameDuration = 1000 / 60,
+          duration = 3000,
+          rotationSpeed = 0.3,
+          totalIterations = Math.floor(duration / frameDuration),
+          maxBaseSize = 100,
+          baseSizeSpeed = 0.02;
+
+  var canvas = document.getElementById("canvas"),
+          ctx = canvas.getContext("2d"),
+          canvasWidth = document.documentElement.clientWidth,
+          canvasHeight = document.documentElement.clientHeight,
+          shapes = [],
+          sizeVariation,
+          iteration = 0,
+          animationDirection = 1,
+          sizeVariationRange = .15,
+          baseRotation = 0,
+          baseSize = 50,
+          c1 = 43,
+          c1S = 1,
+          c2 = 205,
+          c2S = 1,
+          c3 = 255,
+          c3S = 1;
+
+  canvas.setAttribute("width", canvasWidth);
+  canvas.setAttribute("height", canvasHeight);
+
+  function Shape(gen, x, y, size, rotation) {
+    this.generation = gen;
+    this.size = size;
+    this.rotation = -rotation;
+    this.start = {
+      x: x,
+      y: y
+    };
+    this.end = {
+      x_1: this.start.x + Math.cos(degToRad(this.rotation)) * this.size,
+      y_1: this.start.y + Math.sin(degToRad(this.rotation)) * this.size,
+      x_2: this.start.x + Math.cos(degToRad(this.rotation + 360 / 3)) * this.size,
+      y_2: this.start.y + Math.sin(degToRad(this.rotation + 360 / 3)) * this.size,
+      x_3:
+              this.start.x +
+              Math.cos(degToRad(this.rotation + 360 / 3 * 2)) * this.size,
+      y_3:
+              this.start.y + Math.sin(degToRad(this.rotation + 360 / 3 * 2)) * this.size
+    };
+
+    this.init();
+  }
+
+  Shape.prototype.init = function() {
+    if (this.generation < maxGeneration) {
+      var gen = this.generation + 1,
+              newSize = this.size * sizeVariation,
+              newRotation = this.rotation;
+
+      shapes.push(
+              new Shape(gen, this.end.x_1, this.end.y_1, newSize, newRotation)
+      );
+      shapes.push(
+              new Shape(gen, this.end.x_2, this.end.y_2, newSize, newRotation)
+      );
+      shapes.push(
+              new Shape(gen, this.end.x_3, this.end.y_3, newSize, newRotation)
+      );
+    }
+    this.draw();
+  };
+
+  Shape.prototype.draw = function() {
+    ctx.beginPath();
+    ctx.moveTo(this.start.x, this.start.y);
+    ctx.lineTo(this.end.x_1, this.end.y_1);
+    ctx.moveTo(this.start.x, this.start.y);
+    ctx.lineTo(this.end.x_2, this.end.y_2);
+    ctx.moveTo(this.start.x, this.start.y);
+    ctx.lineTo(this.end.x_3, this.end.y_3);
+    //ctx.closePath();
+    ctx.strokeStyle =
+            "rgba(" + c1 + "," + c2 + "," + c3 + "," + 1 / this.generation / 5 + ")";
+    ctx.stroke();
+    //ctx.fill();
+  };
+
+  function animate() {
+    //ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = "rgba(0,0,0,.1)";
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.globalCompositeOperation = "lighter";
+    shapes = [];
+    shapes.push(
+            new Shape(0, canvasWidth / 2, canvasHeight / 2, baseSize, baseRotation)
+    );
+
+    changeColor();
+    iteration++;
+    if (baseSize < maxBaseSize) baseSize += baseSizeSpeed;
+    baseRotation += rotationSpeed;
+    sizeVariation = easeInOutSine(
+            iteration,
+            1 - sizeVariationRange * animationDirection,
+            sizeVariationRange * 2 * animationDirection,
+            totalIterations
+    );
+    if (iteration >= totalIterations) {
+      iteration = 0;
+      animationDirection *= -1;
+    }
+    requestAnimationFrame(animate);
+  }
+
+  function degToRad(deg) {
+    return Math.PI / 180 * deg;
+  }
+
+  function easeInOutSine(
+          currentIteration,
+          startValue,
+          changeInValue,
+          totalIterations
+  ) {
+    return (
+            changeInValue /
+            2 *
+            (1 - Math.cos(Math.PI * currentIteration / totalIterations)) +
+            startValue
+    );
+  }
+
+  function changeColor() {
+    if (c1 == 0 || c1 == 255) c1S *= -1;
+    if (c2 == 0 || c2 == 255) c2S *= -1;
+    if (c3 == 0 || c3 == 255) c3S *= -1;
+    c1 += 1 * c1S;
+    c2 += 1 * c2S;
+    c3 += 1 * c3S;
+  }
+
+  ctx.globalCompositeOperation = "lighter";
+  animate();
+
+  window.addEventListener("resize", function() {
+    canvasWidth = document.documentElement.clientWidth;
+    canvasHeight = document.documentElement.clientHeight;
+
+    canvas.setAttribute("width", canvasWidth);
+    canvas.setAttribute("height", canvasHeight);
+    ctx.strokeStyle = "rgba(66,134,240,.3)";
+    ctx.globalCompositeOperation = "lighter";
+  });
+</script>
+
+  <!--导航-->
+<nav th:fragment="menu(0)" class="ui inverted attached segment m-padded-tb-tiny">
+  <div class="ui m-container-large">
+    <div class="ui inverted secondary stackable menu">
+      &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+      <div class="div1">Blog</div>
+      &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+      <a href="#" th:href="@{/admin/blogs}" class=" m-item item m-mobile-hide" th:classappend="${n==1} ? 'active'"><i class="home icon"></i>博客</a>
+      &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+      <a href="#" th:href="@{/admin/types}" class=" m-item item m-mobile-hide" th:classappend="${n==2} ? 'active'"><i class="idea icon"></i>分类</a>
+      &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+      <a href="#" th:href="@{/admin/tags}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'"><i class="tags icon"></i>标签</a>
+      &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+      <a href="#" th:href="@{/index}" class="m-item item m-mobile-hide " th:classappend="${n==4} ? 'active'"><i class="home icon"></i>首页</a>
+      <div class="right m-item item m-mobile-hide">
+        <div class="item"></div>
+        <p id="t"></p>
+      </div>
+    </div>
+  </div>
+  <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+    <i class="sidebar icon"></i>
+  </a>
+</nav>
+
+  <!--中间内容-->
+  <div  class="m-container-medium m-padded-tb-massive4">
+    <div class="ui container">
+      <audio src="http://106.55.44.39:8888/down/kNeMS0YwJGUF" th:src="@{http://106.55.44.39:8888/down/kNeMS0YwJGUF}" loop="loop" autoplay="autoplay" >   <!--添加controls="controls"这个表示显示播放音乐的控制条-->
+      </audio>
+    </div>
+  </div>
+
+
+  <!--/*/<th:block th:replace="_fragments :: script">/*/-->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+  <!--/*/</th:block>/*/-->
+  <script>
+    $('.menu.toggle').click(function () {
+      $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown({
+      on : 'hover'
+    });
+  </script>
+
+</body>
+</html>

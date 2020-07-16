@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:font-weight="http://www.w3.org/1999/xhtml">
+<!--不引用_fragments是因为若使用播放音乐这个功能，则有些功能不能使用，故单独来重写head-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>博客</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+  <link rel="stylesheet" href="../static/css/typo.css" th:href="@{/css/typo.css}">
+  <link rel="stylesheet" href="../static/css/animate.css" th:href="@{/css/animate.css}">
+  <link rel="stylesheet" href="../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
+  <link rel="stylesheet" href="../static/lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">
+  <link rel="stylesheet" href="../static/css/me.css" th:href="@{/css/me.css}">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video-js.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/过山车.css" th:href="@{/css/过山车.css}">
+  <style>
+    .div1{
+      width:20px;
+      height:50px;
+      text-align:center;
+      line-height:60px;
+      font-size:45px;
+      color: #a8ffab;
+      font-family: "Kaiti SC";
+    }
+    /*动态字体*/
+    ._borderWrap{
+        height: 0px; /*决定文字与视频之间的距离*/
+        text-align:center;
+        top: 1%;
+    }
+    ._border{
+        font-family: 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
+        line-height: 70px;  /*决定文字与导航之间的距离*/
+        text-align: center;
+        font-size: 60px;
+        font-weight: bolder;
+        -webkit-text-fill-color: transparent;
+        background-image: -webkit-linear-gradient(left, #2fffc9, rgb(55, 78, 255), #ff3f48, #968aeb,rgb(40,150,38));
+        background-size: 200%,100%;
+        -webkit-background-clip: text;
+        -webkit-animation: word 4s linear infinite ;
+    }
+    @keyframes word {
+        0%{background-position: 0 0}
+        100%{background-position: -100% 0}
+    }
+  </style>
+</head>
+<!--    <div th:fragment="shanche">-->
+<canvas></canvas>
+
+<script>
+    p = [
+        [389,246,0],
+        [410,255,20],
+        [413,268,7],
+        [431,261,12],
+        [418,244,30],
+        [416,217,25],
+        [420,205,8],
+        [427,227,-20],
+        [432,236,5],
+        [444,228,12],
+        [451,232,41],
+        [446,246,72],
+        [443,264,96],
+        [446,278,65],
+        [463,267,20],
+        [460,258,-10],
+        [464,243,-20],
+        [459,233,0],
+        [475,225,22],
+        [484,225,29],
+        [490,214,51],
+        [476,202,55],
+        [462,202,55],
+        [446,205,42],
+        [440,192,42],
+        [430,183,72],
+        [413,184,58],
+        [406,191,32],
+        [406,207,0],
+        [402,220,0],
+        [390,222,20],
+        [385,228,10],
+        [389,246,0]
+    ];
+</script>
+
+<body>
+<!--导航-->
+<nav  th:replace="_fragments :: menu(0)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
+  <div class="ui container">
+    <div class="ui inverted secondary stackable menu">
+<!--      <h2 class="ui teal header item">Blog</h2>-->
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="div1">Blog</div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <a href="#" class=" m-item item m-mobile-hide"><i class="mini home icon"></i>首页</a>
+      <a href="#" class="active m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
+      <a href="#" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
+      <a href="#" class="m-item item m-mobile-hide"><i class="mini clone icon"></i>归档</a>
+      <a href="#" class="m-item item m-mobile-hide"><i class="mini info icon"></i>关于我</a>
+      <div class="right m-item item m-mobile-hide">
+        <div class="ui icon inverted transparent input m-margin-tb-tiny">
+          <input type="text" placeholder="Search....">
+          <i class="search link icon"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+    <i class="sidebar icon"></i>
+  </a>
+</nav>
+
+<!--中间内容-->
+<div  class="m-container-medium m-padded-tb-massive4">
+  <div class="ui container">
+    <!--      <div class="ui success large message" style="opacity: 0.4">-->
+
+      <div class="_borderWrap">
+<!--          <div class="_border">你好,欢迎来到我的博客!</div>-->
+      </div>
+    <audio src="http://106.55.44.39:8888/down/kNeMS0YwJGUF" th:src="@{http://106.55.44.39:8888/down/kNeMS0YwJGUF}" loop="loop" autoplay="autoplay" >   <!--添加controls="controls"这个表示显示播放音乐的控制条-->
+    </audio>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+<script src="../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
+<script src="../static/lib/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>
+<script src="../static/lib/qrcode/qrcode.min.js" th:src="@{/lib/qrcode/qrcode.min.js}"></script>
+<script src="../static/lib/waypoints/jquery.waypoints.min.js" th:src="@{/lib/waypoints/jquery.waypoints.min.js}"></script>
+
+<script src='../static/js/three.min.js' th:src="@{/js/three.min.js}"></script>
+<script src="../static/js/过山车.js" th:src="@{/js/过山车.js}"></script>
+
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown({
+        on : 'hover'
+    });
+</script>
+
+</body>
+</html>

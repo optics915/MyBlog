@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>归档</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+  <link rel="stylesheet" href="../static/css/me.css">
+
+<!--  <style>-->
+<!--    .img{-->
+<!--      background-image: url("../static/images/login.jpg");-->
+<!--      background-attachment: fixed;-->
+<!--      background-size: 100% 100%;-->
+<!--      /*display: block;*/-->
+<!--      /*background: url("../static/images/2.jpg");*/-->
+
+<!--    }-->
+<!--  </style>-->
+</head>
+<!--<body class="img">-->
+<body style="background-image:url(http://img.netbian.com/file/2017/0615/ad47ab9e90125e4016273758c5970b8a.jpg);" th:style="'background:url(' + @{http://img.netbian.com/file/2017/0615/ad47ab9e90125e4016273758c5970b8a.jpg} + '); background-attachment: fixed; background-size: 100% ;'">
+
+<!--<iframe src="过山车.html" frameborder="0" width="100%" height="100%"-->
+<!--        style="z-index: -1;width: 100%;position:fixed "></iframe>-->
+
+<!--<canvas></canvas>-->
+  <!--导航-->
+  <nav th:replace="_fragments :: menu(4)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
+    <div class="ui container">
+      <div class="ui inverted secondary stackable menu">
+        <h2 class="ui teal header item">Blog</h2>
+        <a href="#" class=" m-item item m-mobile-hide"><i class="mini home icon"></i>首页</a>
+        <a href="#" class="m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
+        <a href="#" class=" m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
+        <a href="#" class="active m-item item m-mobile-hide"><i class="mini clone icon"></i>归档</a>
+        <a href="#" class="m-item item m-mobile-hide"><i class="mini info icon"></i>关于我</a>
+        <div class="right m-item item m-mobile-hide">
+          <div class="ui icon inverted transparent input m-margin-tb-tiny">
+            <input type="text" placeholder="Search....">
+            <i class="search link icon"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+      <i class="sidebar icon"></i>
+    </a>
+  </nav>
+
+  <!--中间内容-->
+  <div  class="m-container-medium m-padded-tb-big1" >
+    <div class="ui container">
+      <!--header-->
+      <div class="ui top attached padded segment ui rounded image animated slideInRight" style="background: #484848; border-style:none">
+        <div class="ui middle aligned two column grid">
+          <div class="column">
+            <h2 class="ui teal header" style="color: #53b783; font-family: 'Kaiti TC'">归档</h2>
+          </div>
+          <div class="right aligned column">
+            <a style="color: chocolate">共</a> <h2 class="ui header m-inline-block m-text-thin" th:text="${blogCount}" style="color: cornflowerblue; font-size: xx-large; margin:0;"> 114 </h2> <a style="color: chocolate">篇博客</a>
+          </div>
+        </div>
+      </div>
+
+      <th:block th:each="item : ${archiveMap}">
+<!--        这里因为使用了m-inline-block1以行排列，运用text-align居中无效，故用padding-left绝对位置代替-->
+          <h2 class="m-inline-block1 animated slideInDown" th:text="${item.key}" style="color: cornflowerblue; font-size: xx-large;">114 </h2><a style="font-size: x-large">年度</a>
+      <div class="ui fluid vertical menu animated slideInLeft" style="background: #484848">
+        <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="item" th:each="blog : ${item.value}">
+          <span>
+            <i class="mini teal circle icon"></i><span th:text="${blog.title}" style="color: #d6d6d6">关于刻意练习的清单</span>
+            <div class="ui teal basic left pointing label m-padded-mini " th:text="${#dates.format(blog.updateTime,'MM-dd')}">9月03</div>
+          </span>
+          <div href="#" th:href="@{/tags/{id}(id=${tag.id})}" class="ui orange basic left pointing label m-padded-mini m-text-thin" th:classappend="${tag.id==activeTagId} ? 'teal'" th:each="tag : ${blog.tags}" th:text="${tag.name}">方法论</div>
+<!--          <div class="ui orange basic left pointing label m-padded-mini " th:text="${tag.name}">原创</div>-->
+        </a>
+<!--        th:text="${blog.flag}"-->
+        <!--/*-->
+        <a href="#" target="_blank" class="item">
+          <span>
+            <i class="mini teal circle icon"></i>关于刻意练习的清单
+            <div class="ui teal basic left pointing label m-padded-mini" >9月03</div>
+          </span>
+          <div class="ui orange basic left pointing label m-padded-mini ">原创</div>
+        </a>
+        <a href="#" target="_blank" class="item">
+          <span>
+            <i class="mini teal circle icon"></i>关于刻意练习的清单
+            <div class="ui teal basic left pointing label m-padded-mini ">9月03</div>
+          </span>
+          <div class="ui orange basic left pointing label m-padded-mini ">原创</div>
+        </a>
+        <a href="#" target="_blank" class="item">
+          <span>
+            <i class="mini teal circle icon"></i>关于刻意练习的清单
+            <div class="ui teal basic left pointing label m-padded-mini ">9月03</div>
+          </span>
+          <div class="ui orange basic left pointing label m-padded-mini ">原创</div>
+        </a>
+        <!--*/-->
+      </div>
+      </th:block>
+    </div>
+  </div>
+
+  <!--底部footer-->
+  <footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+      <div class="ui inverted divided stackable grid">
+        <div class="three wide column">
+          <div class="ui inverted link list">
+            <div class="item">
+              <img src="../static/images/wechat.jpg" class="ui rounded image" alt="" style="width: 110px">
+            </div>
+          </div>
+        </div>
+        <div class="three wide column">
+          <h4 class="ui inverted header m-text-thin m-text-spaced " >最新博客</h4>
+          <div class="ui inverted link list">
+            <a href="#" class="item m-text-thin">用户故事（User Story）</a>
+            <a href="#" class="item m-text-thin">用户故事（User Story）</a>
+            <a href="#" class="item m-text-thin">用户故事（User Story）</a>
+          </div>
+        </div>
+        <div class="three wide column">
+          <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我</h4>
+          <div class="ui inverted link list">
+            <a href="#" class="item m-text-thin">Email：lirenmi@163.com</a>
+            <a href="#" class="item m-text-thin">QQ：865729312</a>
+          </div>
+        </div>
+        <div class="seven wide column">
+          <h4 class="ui inverted header m-text-thin m-text-spaced ">Blog</h4>
+          <p class="m-text-thin m-text-spaced m-opacity-mini">这是我的个人博客、会分享关于编程、写作、思考相关的任何内容，希望可以给来到这儿的人有所帮助...</p>
+        </div>
+      </div>
+      <div class="ui inverted section divider"></div>
+      <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2016 - 2017 Lirenmi Designed by Lirenmi</p>
+    </div>
+
+  </footer>
+  <!--/*/<th:block th:replace="_fragments :: script">/*/-->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+  <!--/*/</th:block>/*/-->
+  <script>
+    $('.menu.toggle').click(function () {
+      $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+  </script>
+
+  <script>
+    p = [
+      [389,246,0],
+      [410,255,20],
+      [413,268,7],
+      [431,261,12],
+      [418,244,30],
+      [416,217,25],
+      [420,205,8],
+      [427,227,-20],
+      [432,236,5],
+      [444,228,12],
+      [451,232,41],
+      [446,246,72],
+      [443,264,96],
+      [446,278,65],
+      [463,267,20],
+      [460,258,-10],
+      [464,243,-20],
+      [459,233,0],
+      [475,225,22],
+      [484,225,29],
+      [490,214,51],
+      [476,202,55],
+      [462,202,55],
+      [446,205,42],
+      [440,192,42],
+      [430,183,72],
+      [413,184,58],
+      [406,191,32],
+      [406,207,0],
+      [402,220,0],
+      [390,222,20],
+      [385,228,10],
+      [389,246,0]
+    ];
+  </script>
+
+</body>
+</html>

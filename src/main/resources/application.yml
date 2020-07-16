@@ -1,0 +1,24 @@
+spring:
+  thymeleaf:
+    mode: HTML
+#    prefix: classpath:/templates/
+  profiles:
+    active: dev
+  messages:
+    basename: i18n/messages
+
+comment.avatar: /images/wechat.png
+reply.avatar: /images/avatar.png
+
+server:
+  port: 443
+  ssl:
+    enabled: true
+    key-store-password: 510y3e60hsy4108
+    key-store: optics915.top.jks
+    key-store-type: JKS
+condition:
+  http2https: true
+http:
+  port: 80
+

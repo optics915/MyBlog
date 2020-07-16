@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:font-family="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>博客管理登录</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+  <link rel="stylesheet" href="../../static/css/me.css">
+
+  <link rel="stylesheet" href="../../static/css/过山车.css">
+</head>
+
+<!--导航-->
+<nav  th:replace="_fragments :: menu(6)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
+  <div class="ui container">
+    <div class="ui inverted secondary stackable menu">
+      <h2 class="ui teal header item">Blog</h2>
+      <a href="#" class="active m-item item m-mobile-hide"><i class="mini home icon"></i>首页</a>
+      <a href="#" class="m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
+      <a href="#" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
+      <a href="#" class="m-item item m-mobile-hide"><i class="mini clone icon"></i>归档</a>
+      <a href="#" class="m-item item m-mobile-hide"><i class="mini info icon"></i>关于我</a>
+      <div class="right m-item item m-mobile-hide">
+        <div class="ui icon inverted transparent input m-margin-tb-tiny">
+          <input type="text" placeholder="Search....">
+          <i class="search link icon"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+    <i class="sidebar icon"></i>
+  </a>
+</nav>
+
+<!--参考：https://www.xuchuruo.cn/spring-boot之thymeleaf的路径详解.html-->
+<!--<body style="background-image:url(../../static/images/admin-background.jpg);" th:style="'background:url(' + @{/images/admin-background.jpg} + '); background-attachment: fixed; background-size: 100% ;'">-->
+<!--服务器图片，有2秒左右延迟,作为备用-->
+<!--<body style="background-image:url(http://106.55.44.39:8888/down/GvdZNSHSIHSX);" th:style="'background:url(' + @{http://106.55.44.39:8888/down/GvdZNSHSIHSX} + '); background-attachment: fixed; background-size: 100% ;'">-->
+<!--网站图片，无延迟-->
+<body style="background-image:url(https://s1.ax1x.com/2020/07/05/UpeXin.jpg);" th:style="'background:url(' + @{https://s1.ax1x.com/2020/07/05/UpeXin.jpg} + '); background-attachment: fixed; background-size: 100% ;'">
+<!--不知道为什么读不出来-->
+<!--<body style="background-image:url(../../static/images/shanghai2.jpg);" th:style="'background:url(' + @{/images/shanghai2.jpg} + '); background-attachment: fixed; background-size: 100% ;'">-->
+
+<div class="m-container-small m-padded-tb-massive3 animated flipInX" style="max-width: 30em !important;">
+  <div class="ui container">
+    <div class="ui middle aligned center aligned grid">
+      <div class="column">
+        <h1 class="ui teal image header">
+          <div class="content" style="font-family: 黑体; color: rgba(68,79,174,0.55); font-size: 50px; padding-bottom: 20px">
+            登&ensp;录&ensp;系&ensp;统
+          </div>
+        </h1>
+        <form class="ui large form" method="post" action="#" th:action="@{/admin/login}">
+          <!--                    style="background: #5f5f5f;border-style:none;"-->
+<!--          style="background-image:url(../../static/images/admin-background.jpg); border-style:none; background-attachment: fixed;"-->
+          <div class="ui segment" style="background:url(../../static/images/2.jpg); padding-top: 20px; border-style:none;"> <!--background:url(../../static/images/2.jpg)相当于透明作用,报错没关系，正因为报错才没起作用-->
+            <div class="item">  <!--item表示图标-->
+              <img class="ui avatar image" src="https://s1.ax1x.com/2020/07/06/UiBxXt.jpg">
+            </div>
+            <br>
+            <div class="item">
+              <div class="context blue"><a class="header">
+                <span style="color: #4c75b8;font-weight: 700; font-size: large">邹&ensp;跃</span>
+              </a></div>
+            </div>
+<!--                                    用户名-->
+            <div class="field" style="padding-left: 60px; padding-right: 60px; padding-top: 30px">
+              <div class="ui left icon input" >
+                <i class="user icon"></i>
+                <input type="text" name="username" style="background: #e9e9e9;" placeholder="用户名">
+              </div>
+            </div>
+            <!--                        密码-->
+            <div class="field" style="padding-left: 60px; padding-right:60px; padding-top: 20px; padding-bottom: 20px">
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input type="password" name="password" style="background: #e9e9e9" placeholder="密码">
+              </div>
+            </div>
+            <button class="ui large submit button" style="background: teal; color: #effafa; font-family:'楷体', serif;">登&ensp;&ensp;&ensp;录</button>
+          </div>
+
+          <div class="ui error mini message"></div>
+          <div class="ui mini negative message" style="background: #e9e9e9;" th:unless="${#strings.isEmpty(message)}" th:text="${message}">用户名和密码错误</div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--/*/<th:block th:replace="_fragments :: script">/*/-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+
+<script>
+  $('.menu.toggle').click(function () {
+    $('.m-item').toggleClass('m-mobile-hide');
+  });
+
+  $('.ui.dropdown').dropdown({
+    on : 'hover'
+  });
+</script>
+
+
+<script>
+  $('.ui.form').form({
+    fields : {
+      username : {
+        identifier: 'username',
+        rules: [{
+          type : 'empty',
+          prompt: '请输入用户名'
+        }]
+      },
+      password : {
+        identifier: 'password',
+        rules: [{
+          type : 'empty',
+          prompt: '请输入密码'
+        }]
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+body{
+    background-image: url("../images/login.jpg");
+    background-size: 100%;
+}
+.m-container-small{
+    max-width: 50em !important;
+    margin: auto !important;
+}
+.m-padded-tb-massive{
+    padding-top: 5em !important;
+    padding-bottom: 5em !important;
+}
