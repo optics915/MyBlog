@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$" libraries="{docsify, video, video-js}" />
+    <file url="file://$PROJECT_DIR$" libraries="{docsify, font_2080782_yniv35m0r48, font_908809_yescakidb6b, video, video-js}" />
   </component>
 </project>

@@ -1,0 +1,23 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "12469366",
+      "name": "blog",
+      "font_class": "blog",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "17282518",
+      "name": "gitee",
+      "font_class": "gitee",
+      "unicode": "e703",
+      "unicode_decimal": 59139
+    }
+  ]
+}

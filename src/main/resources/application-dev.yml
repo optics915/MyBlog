@@ -1,8 +1,11 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
+#    这儿我是直接连接到服务器上的数据库，所以当run该项目时需要联网，不然会无法启动
     url: jdbc:mysql://106.55.44.39/blog?useUnicode=true&characterEncoding=utf-8
+#    你自己服务器上数据库对应的用户名
     username: root
+#    你自己服务器上数据库对应的密码
     password: root
   jpa:
     hibernate:

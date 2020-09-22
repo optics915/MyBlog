@@ -39,7 +39,7 @@ public class MD5Utils {
 
     }
 
-
+//运行此程序，生成加密的密码，也就是在MySQL中设置的隐性的登录后端的密码
     public static void main(String[] args) {
         System.out.println(code("root"));
     }

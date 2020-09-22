@@ -118,5 +118,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-core:4.3.11.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:4.3.11.RELEASE" level="project" />
     <orderEntry type="library" name="docsify" level="application" />
+    <orderEntry type="library" name="font_908809_yescakidb6b" level="application" />
+    <orderEntry type="library" name="font_2080782_yniv35m0r48" level="application" />
   </component>
 </module>
